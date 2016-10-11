@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Animations!</title>
+	
+	<script>
+		window.onload = function() {
+			var canvas = document.createElement("canvas");
+			var ctx = canvas.getContext("2d");
+
+			const _WIDTH = 400;
+			const _HEIGHT = 400;
+			const _NUMPARTICLES = 100;
+
+			function Coords(_x, _y) {
+				this.x = _x;
+				this.y = _y;
+			}
+
+			var square = new Coords(0, _HEIGHT / 2);
+			var squareHeight = 10;
+			var squareWidth = 10;
+			var squareXVel = 1;
+			var squareYVel = 1;
+
+			canvas.width = _WIDTH;
+			canvas.height = _HEIGHT;
+			document.body.appendChild(canvas);
+
+			blackout();
+
+			function particle(_x, _y, _xVel, _yVel, _growthrate) {
+				this.x = _x;
+				this.y = _y;
+				this.xVel = _xVel;
+				this.yVel = _yVel;
+				this.lifetime = 0;
+				this.width = 7;
+				this.height = 8;
+				this.growthrate = _growthrate;
+				if (Math.random() > 0.5) {
+					this.growthrate *= -1;
+				}
+				this.update = function() {
+					ctx.fillStyle = "white";
+					ctx.fillRect(this.x, this.y, this.width, this.height); 
+					if (this.lifetime > 250) {
+						this.xVel *= -1;
+						this.yVel *= -1;
+						this.lifetime = 0;
+						this.growthrate *= -1;
+					}
+					this.x += this.xVel;
+					this.y += this.yVel;	
+					this.height += this.growthrate;
+					this.width += this.growthrate;
+					if (this.height <= 0) this.height = 0;
+					if (this.width <= 0) this.width = 0;
+					this.lifetime++;				
+				}
+			}
+
+			var particleArray = [];
+			for (var i = 0; i < _NUMPARTICLES; i++) {
+				particleArray[i] = new particle(_WIDTH / 2, _HEIGHT / 2, Math.random() * 2 - 1, Math.random() * 2 -
+					1, 0.1);
+			}
+
+			setInterval(function() {
+				blackout();
+				for (var i = 0; i < _NUMPARTICLES; i++) {
+					particleArray[i].update();				}
+			}, 30);
+
+			function blackout() {
+				ctx.fillStyle = "black";
+				ctx.fillRect(0, 0, _WIDTH, _HEIGHT);
+			}
+		}
+	</script>
+	
+	<style>
+		canvas {
+			position: absolute;
+		    border: 1px solid black;
+		    margin: auto;
+		    top: 0;
+		    left: 0;
+		    bottom: 0;
+		    right: 0;
+		}
+		body {
+			text-align: center;
+		}
+	</style>
+</head>
+<body>
+	<h3>Big Bang</h3>
+</body>
+</html>
