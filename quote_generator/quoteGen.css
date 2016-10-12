@@ -1,3 +1,7 @@
+body {
+	font-family: "Raleway", sans-serif;
+}
+
 #background {
 	position: absolute;
 	top: 0;
@@ -9,8 +13,9 @@
 
 #box {
 	position: absolute;
-	height: 250px;
-	width: 500px;
+	height: 300px;
+	width: 600px;
+	border-radius: 5px;
 	background-color: white;
 	margin: auto;
 	top: 0;
@@ -20,27 +25,41 @@
 }
 
 #quoteBox {
-	height: 200px;
-	width: 400px;
+	height: 220px;
+	width: 500px;
 	position: absolute;
 	margin: auto;
 	top: 0;
 	left: 0;
 	bottom: 0;
 	right: 0;
-	background-color: red;
 }
 
 #quote {
 	text-align: center;
+	font-size: 28px;
+	font-weight: 500;
+	margin-top: 0;
 }
 
 #author {
 	text-align: right;
+	font-size: 20px;
 }
 
 #newQuoteButton {
+	font-family: "Raleway", sans-serif;
+	border: none;
+	cursor: pointer;
+	color: white;
 	position: absolute;
+	height: 40px;
+	width: 110px;
+	border-radius: 5px;
 	right: 0;
 	bottom: 0;
+}
+
+.quote {
+	display: inline;
 }
