@@ -134,7 +134,7 @@ function loop() {
 		update();
 		frame /= 5;
 	}
-	draw();
+	draw(); // move inside loop?
 	window.requestAnimationFrame(loop, canvas);
 }
 
