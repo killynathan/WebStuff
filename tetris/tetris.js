@@ -76,6 +76,18 @@ var block = {
 				this.rep.push({x: startX-1, y: startY});
 				this.rep.push({x: startX, y: startY+1});
 				this.rep.push({x: startX-1, y: startY+1});
+				break;
+			case L:
+				this.rep.push({x: startX - 1, y: startY});
+				this.rep.push({x: startX - 1, y: startY + 1});
+				this.rep.push({x: startX, y: startY + 1});
+				this.rep.push({x: startX + 1, y: startY + 1});
+				break;
+			case LINE:
+				this.rep.push({x: startX - 2, y: startY});
+				this.rep.push({x: startX - 1, y: startY});
+				this.rep.push({x: startX, y: startY});
+				this.rep.push({x: startX + 1, y: startY});
 			default:
 				this.rep.push({x: startX, y: startY});
 				break;
@@ -119,7 +131,7 @@ function main() {
 
 function init() {
 	grid.init();
-	block.init(SQUARE, 1, 5, 0);
+	block.init(LINE, 1, 5, 0);
 }
 
 function loop() {
@@ -163,18 +175,52 @@ function checkForCompleteRow() {
 	return completedRows;
 }
 
+function checkAndClearCompleteRows() {
+	while (checkForCompleteRow()) {
+
+	}
+}
+
+function clearCompletedRows(completedRows) {
+	var row_num;
+	var value;
+	for (var i = 0; i < completedRows.length; i++) {
+		row_num = completedRows.pop();
+		for (var j = row_num; j > 0; j--) {
+			for (var k = 0; k <= ROWS - 1; k++) {
+				if (!block.isMainBlock(k, j) && !block.isMainBlock(k, j-1)) {
+					value = grid.get(k, j - 1);
+					grid.set(k, j, value);
+				}
+			}
+		}
+	}
+}
+
+function isGameOver() {
+	for (var i = 0; i <= ROWS - 1; i++) {
+		if (grid.get(i, 0) != EMPTY) return true;
+	}
+	return false;
+}
+
 function update() {
 	//update block
 	//clear if full row
 	if (frame % 10 === 0) { //40
-		if (blockReachedBottom() || blockBelow()) {
-			block.init(SQUARE, 1, 5, 0);
+		if ((blockReachedBottom() || blockBelow())) {
+			if (isGameOver()) {
+				alert("you lose");
+			}
+			block.init(LINE, 1, 5, 0);
 		}
 		else {
-			moveDown()
+			moveDown();
 		}
 	}
-	if (checkForCompleteRow().length != 0) alert("test");
+
+	completedRows = checkForCompleteRow();
+	if (completedRows.length != 0) clearCompletedRows(completedRows);
 
 }
 
